@@ -1,12 +1,12 @@
 ---
 title: TS로 보는 expression problem
-date: '2023-12-10'
+date: "2023-12-10"
 tags: []
 draft: true
 summary:
 images: []
 layout: PostSimple
-authors: ['default']
+authors: ["default"]
 ---
 
 # 도입
@@ -22,45 +22,45 @@ authors: ['default']
 
 ```ts
 type Props = Readonly<{
-  hp: number
-  damage: number
-}>
+  hp: number;
+  damage: number;
+}>;
 
 abstract class Character {
   protected constructor(public readonly props: Props) {}
 
-  abstract from(props: Partial<Props>): Character
+  abstract from(props: Partial<Props>): Character;
 
-  abstract attack(target: Character): Character
+  abstract attack(target: Character): Character;
 }
 
 class Knight extends Character {
   constructor(props: Props) {
-    super(props)
+    super(props);
   }
 
   from(props: Partial<Props>): Knight {
-    return new Knight({ ...this.props, ...props })
+    return new Knight({ ...this.props, ...props });
   }
 
   attack(target: Character): Character {
-    const nextHp = target.props.hp - this.props.damage
-    return target.from({ hp: nextHp })
+    const nextHp = target.props.hp - this.props.damage;
+    return target.from({ hp: nextHp });
   }
 }
 
 class Priest extends Character {
   constructor(props: Props) {
-    super(props)
+    super(props);
   }
 
   from(props: Partial<Props>): Priest {
-    return new Priest({ ...this.props, ...props })
+    return new Priest({ ...this.props, ...props });
   }
 
   attack(target: Character): Character {
-    const nextHp = target.props.hp - this.props.damage
-    return target.from({ hp: nextHp })
+    const nextHp = target.props.hp - this.props.damage;
+    return target.from({ hp: nextHp });
   }
 }
 ```
