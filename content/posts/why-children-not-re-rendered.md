@@ -1,17 +1,13 @@
 ---
 title: 왜 children은 리렌더링되지 않을까?
-date: '2024-08-24'
-tags: ['react']
+date: "2024-08-24"
+tags: ["react"]
 draft: false
 summary: 부모 컴포넌트와 소유 컴포넌트의 차이
 images: []
 layout: PostSimple
-authors: ['default']
+authors: ["default"]
 ---
-
-# 목차
-
-
 
 **참고 자료**
 
@@ -24,7 +20,7 @@ authors: ['default']
 
 ```tsx
 export default function ParentHasChild(): React.JSX.Element {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <div onClick={() => setCount(count + 1)}>
@@ -32,12 +28,11 @@ export default function ParentHasChild(): React.JSX.Element {
 
       <Child />
     </div>
-  )
+  );
 }
 ```
 
 count가 바뀌면 `<ParentHasChild />`가 다시 렌더링되며 자식인 `<Child />` 또한 렌더링된다.
-
 
 <video
   src="/static/videos/why-children-not-re-rendered/parent-child-re-render.mp4"
@@ -58,23 +53,23 @@ count가 바뀌면 `<ParentHasChild />`가 다시 렌더링되며 자식인 `<Ch
 
 ```tsx
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 function Parent({ children }: Props): React.JSX.Element {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <div
       onClick={() => {
-        setCount(count + 1)
+        setCount(count + 1);
       }}
     >
       <p>parent: {count}</p>
 
       <div>{children}</div>
     </div>
-  )
+  );
 }
 
 export default function ChildrenProp(): React.JSX.Element {
@@ -84,7 +79,7 @@ export default function ChildrenProp(): React.JSX.Element {
         <Child />
       </Parent>
     </div>
-  )
+  );
 }
 ```
 
