@@ -1,8 +1,9 @@
 ---
 title: 구별된 타입
-draft: false
+draft: true
 date: 2026-06-04
-tags: ["python"]
+tags:
+  - python
 ---
 
 **환경**
@@ -120,6 +121,8 @@ python의 NewType을 사용하면 상속을 사용하는 것보다 쉽게 구별
 +    id: Mapped[ImageId] = mapped_column(primary_key=True)
      name: Mapped[str] = mapped_column()
 ```
+
+type_annotation_map에 등록 필요. see: https://docs.sqlalchemy.org/en/21/orm/declarative_tables.html#support-for-type-alias-types-defined-by-pep-695-and-newtype
 
 #### 장점
 
