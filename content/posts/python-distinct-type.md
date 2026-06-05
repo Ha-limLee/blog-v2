@@ -1,9 +1,10 @@
 ---
 title: 구별된 타입
-draft: true
+draft: false
 date: 2026-06-04
 tags:
   - python
+  - sqlalchemy
 ---
 
 **환경**
@@ -45,7 +46,7 @@ image_dict[label_id] = image
 
 ## 해결
 
-이런 문제는 id가 스칼라 타입(int)이기 때문에 생긴다. 따라서 스칼라 타입과 구별된 타입을 정의하면 문제를 해결할 수 있다.
+이런 문제는 모든 id가 같은 타입(int)이기 때문에 생긴다. 따라서 다른 id와 구별된 타입을 정의하면 문제를 해결할 수 있다.
 
 ### 상속
 
@@ -122,13 +123,26 @@ python의 NewType을 사용하면 상속을 사용하는 것보다 쉽게 구별
      name: Mapped[str] = mapped_column()
 ```
 
-type_annotation_map에 등록 필요. see: https://docs.sqlalchemy.org/en/21/orm/declarative_tables.html#support-for-type-alias-types-defined-by-pep-695-and-newtype
+그 다음 NewType type을 sqlalchemy가 어떻게 처리할지를 알려줘야 한다[^support-new-type].
+
+```diff
++from sqlalchemy import types
+
++from models.image import ImageId
+
+
+class Base(DeclarativeBase):
+-    pass
++    type_annotation_map = {
++         ImageId: types.Integer()
++    }
+```
 
 #### 장점
 
-- 직렬화, 역직렬화 구현을 하지 않아도 됨
+- 단순함
 
-NewType으로 정의한 타입은 타입 힌트에만 영향을 미치며 런타임에는 원본 타입과 같다. 즉, ImageId는 런타임에 int다. 그렇기 때문에 직렬화, 역직렬화 로직을 구현하지 않아도 된다.
+NewType으로 정의한 타입은 타입 힌트에만 영향을 미치며 런타임에는 원본 타입과 같다. 즉, ImageId는 런타임에 int다. 그렇기 때문에 기존 코드를 크게 바꾸지 않고 개선할 수 있다.
 
 #### 단점
 
@@ -154,3 +168,5 @@ https://sot.dev/everything-should-be-typed.html
 [^type-decorator]: https://docs.sqlalchemy.org/en/21/core/custom_types.html#sqlalchemy.types.TypeDecorator
 
 [^new-type]: https://docs.python.org/3/library/typing.html#newtype
+
+[^support-new-type]: https://docs.sqlalchemy.org/en/21/orm/declarative_tables.html#support-for-type-alias-types-defined-by-pep-695-and-newtype
